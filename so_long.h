@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:12:24 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/02 19:54:31 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/07 18:30:00 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 /* Data structs */
 typedef struct s_data
 {
+	char	*map_file;
 	char	**map;
 	int		map_len;
 	int		map_width;
@@ -36,8 +37,5 @@ void	*ft_safe_malloc(size_t size);
 
 //parsing.c
 void	parsing(t_data *d, int argc, char **argv);
-
-//mini_gnl.c
-char	*mini_gnl(int fd);
 
 #endif
