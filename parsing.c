@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:16:10 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/07 18:39:26 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/07 19:59:51 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,42 @@ void	ft_print_error(const char *msg)
 	exit(0);
 }
 
+/* This function saves a map as a char** array. 
+It also checks whether the map is rectangular. 
+TODO: fix check for last line and norme*/
 void	save_valid_map(t_data *d, int fd)
 {
-	char	*gnl_ret;
-	int		i;
+	int	y;
+	int	x;
+	int read_ret;
 
-	i = 0;
-	d->map_len = 0;
+	d->map = (char **)malloc(sizeof(char *) * d->map_len);
+	if (d->map == NULL)
+		ft_print_error("Malloc failure.\n");
+	y = 0;
+	while (y < d->map_len)
+	{
+		x = 0;
+		d->map[y] = (char *)malloc(sizeof(char) * (d->map_width + 1));
+		if (d->map[y] == NULL)
+			ft_print_error("Malloc failure.\n");
+		while (x < d->map_width)
+		{
+			read(fd, &(d->map[y][x]), 1);
+			x++;
+		}
+		read_ret = read(fd, &(d->map[y][x]), 1);
+		if (d->map[y][x] != '\n' && read_ret != 0)
+			ft_print_error("Invalid map: Map width varies.\n");
+		d->map[y][x] = '\0';
+		y++;
+	}
 	return ;
 }
 
+/* This function stores the length and width of our map in our datastruct.
+It checks for invalid characters in the map, whilst doing so.
+It re-opens the map. */
 void	get_map_dimensions(t_data *d, int *fd)
 {
 	int		read_ret;
@@ -43,7 +69,7 @@ void	get_map_dimensions(t_data *d, int *fd)
 			ft_print_error("Error whilst reading from file.\n");
 		if (buf != '\n' && buf != '1' && buf != '0' && buf != 'C' && buf != 'P' \
 			&& buf != 'E')
-			ft_print_error("Map contains illegal characters\n");
+			ft_print_error("Map contains illegal characters.\n");
 		if (read_ret == 0 || buf == '\n')
 			d->map_len++;
 		if (d->map_len == 0)
@@ -57,7 +83,13 @@ void	get_map_dimensions(t_data *d, int *fd)
 }
 
 /* This function will exit() if an error is encountered, 
-or init our data struct with the relevant information if not.*/
+or init our data struct with the relevant information if not.
+It checks the correct number of args are passed.
+It opens the map.
+It checks the map is '.ber' type.
+It calls get_map_dimensions.
+It calls save_valid_map.
+*/
 void	parsing(t_data *d, int argc, char **argv)
 {
 	int	fd;
@@ -72,11 +104,13 @@ void	parsing(t_data *d, int argc, char **argv)
 	if (fd < 0)
 		ft_print_error("Could not open map file.\n");
 	get_map_dimensions(d, &fd);
+	printf("Map dimensions: X = %d, Y = %d\n", d->map_width, d->map_len);
 	save_valid_map(d, fd);
+	for (int i = 0; i < d->map_len; i++)
+		printf("%s\n", d->map[i]);
 	return ;
 }
 
-// save map as an array of strings (char **)
 
 // check if the map is rectangular (strs are equal length)
 // check if there is a requered amount of valid characters 
