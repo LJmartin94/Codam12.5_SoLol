@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:12:24 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/07 18:30:00 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/08 20:08:11 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ int		ft_strcmp(const char *str1, const char *str2);
 void	*ft_safe_malloc(size_t size);
 
 //parsing.c
+void	ft_print_error(const char *msg);
 void	parsing(t_data *d, int argc, char **argv);
+
+//check_map_validity.c
+void	check_map_validity(t_data *d);
 
 #endif
