@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:16:10 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/08 19:56:55 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/08 21:32:26 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	save_map(t_data *d, int fd)
 }
 
 /* This function stores the length and width of our map in our datastruct.
-It checks for invalid characters in the map, whilst doing so.
+It also stores the total number of collectables it encounters.
 It re-opens the map. */
 void	get_map_dimensions(t_data *d, int *fd)
 {
@@ -60,15 +60,15 @@ void	get_map_dimensions(t_data *d, int *fd)
 
 	d->map_width = 0;
 	d->map_len = 0;
+	d->num_collectables = 0;
 	read_ret = 1;
 	while (read_ret == 1)
 	{
 		read_ret = read(*fd, &buf, 1);
 		if (read_ret < 0)
 			ft_print_error("Error whilst reading from file.\n");
-		if (buf != '\n' && buf != '1' && buf != '0' && buf != 'C' && buf != 'P' \
-			&& buf != 'E')
-			ft_print_error("Map contains illegal characters.\n");
+		if (buf == 'C')
+			d->num_collectables++;
 		if (read_ret == 0 || buf == '\n')
 			d->map_len++;
 		if (d->map_len == 0)
@@ -78,8 +78,10 @@ void	get_map_dimensions(t_data *d, int *fd)
 	*fd = open(d->map_file, O_RDONLY);
 	if (fd < 0)
 		ft_print_error("Could not open map file.\n");
-	return ;
 }
+// if (buf != '\n' && buf != '1' && buf != '0' && buf != 'C' && buf != 'P' \
+// 	&& buf != 'E')
+// 	ft_print_error("Map contains illegal characters.\n");
 
 /* This function will exit() if an error is encountered, 
 or init our data struct with the relevant information if not.
