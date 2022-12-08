@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:16:10 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/08 19:29:15 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/08 19:56:55 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_print_error(const char *msg)
 /* This function saves a map as a char** array. 
 It also checks whether the map is rectangular. 
 */
-void	save_valid_map(t_data *d, int fd)
+void	save_map(t_data *d, int fd)
 {
 	int	y;
 	int	x;
@@ -87,7 +87,8 @@ It checks the correct number of args are passed.
 It opens the map.
 It checks the map is '.ber' type.
 It calls get_map_dimensions.
-It calls save_valid_map.
+It calls save_map.
+It calls check_map_validity.
 */
 void	parsing(t_data *d, int argc, char **argv)
 {
@@ -103,17 +104,7 @@ void	parsing(t_data *d, int argc, char **argv)
 	if (fd < 0)
 		ft_print_error("Could not open map file.\n");
 	get_map_dimensions(d, &fd);
-	printf("Map dimensions: X = %d, Y = %d\n", d->map_width, d->map_len);
-	save_valid_map(d, fd);
-	for (int i = 0; i < d->map_len; i++)
-		printf("%s\n", d->map[i]);
+	save_map(d, fd);
+	check_map_validity(d);
 	return ;
 }
-
-// check if the map is rectangular (strs are equal length)
-// check if there is a requered amount of valid characters 
-//(1 exit, at least 1 collectable, 1 player)
-// check if map is walled off 
-//(top and bottom strings are walls, 
-//first and the last char in other strings is a wall)
-// exit and all of the collectables are reachable
