@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:12:24 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/08 20:08:11 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/08 21:33:20 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,22 @@
 # include <fcntl.h> // open()
 
 /* Data structs */
+typedef struct s_coords
+{
+	int	x;
+	int	y;
+}	t_coords;
+
 typedef struct s_data
 {
-	char	*map_file;
-	char	**map;
-	int		map_len;
-	int		map_width;
+	char		*map_file;
+	char		**map;
+	int			map_len;
+	int			map_width;
+	int			num_collectables;
+	t_coords	*collectables;
+	t_coords	player;
+	t_coords	exit;
 }	t_data;
 
 /* Prototypes */
