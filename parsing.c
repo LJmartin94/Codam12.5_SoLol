@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:16:10 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/07 19:59:51 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/08 19:29:15 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,33 @@ void	ft_print_error(const char *msg)
 
 /* This function saves a map as a char** array. 
 It also checks whether the map is rectangular. 
-TODO: fix check for last line and norme*/
+*/
 void	save_valid_map(t_data *d, int fd)
 {
 	int	y;
 	int	x;
-	int read_ret;
+	int	read_ret;
 
-	d->map = (char **)malloc(sizeof(char *) * d->map_len);
-	if (d->map == NULL)
-		ft_print_error("Malloc failure.\n");
+	d->map = (char **)ft_safe_malloc(sizeof(char *) * d->map_len);
 	y = 0;
+	read_ret = 0;
 	while (y < d->map_len)
 	{
 		x = 0;
-		d->map[y] = (char *)malloc(sizeof(char) * (d->map_width + 1));
-		if (d->map[y] == NULL)
-			ft_print_error("Malloc failure.\n");
+		d->map[y] = (char *)ft_safe_malloc(sizeof(char) * (d->map_width + 1));
 		while (x < d->map_width)
 		{
-			read(fd, &(d->map[y][x]), 1);
+			read_ret += read(fd, &(d->map[y][x]), 1);
 			x++;
 		}
-		read_ret = read(fd, &(d->map[y][x]), 1);
-		if (d->map[y][x] != '\n' && read_ret != 0)
-			ft_print_error("Invalid map: Map width varies.\n");
+		read_ret += read(fd, &(d->map[y][x]), 1);
+		if (d->map[y][x] != '\n' && y != d->map_len - 1)
+			ft_print_error("Map is not rectangular.\n");
 		d->map[y][x] = '\0';
 		y++;
 	}
+	if (read_ret != ((d->map_width + 1) * d->map_len) - 1)
+		ft_print_error("Last line of map is faulty. Trailing newlines?\n");
 	return ;
 }
 
@@ -110,7 +109,6 @@ void	parsing(t_data *d, int argc, char **argv)
 		printf("%s\n", d->map[i]);
 	return ;
 }
-
 
 // check if the map is rectangular (strs are equal length)
 // check if there is a requered amount of valid characters 
