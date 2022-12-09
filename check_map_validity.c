@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 19:56:31 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/09 13:22:29 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/09 13:35:03 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,8 @@ void	check_walls(t_data *d)
 	return ;
 }
 
-// exit and all of the collectables are reachable
-
+/* Calls the above functions, read their descriptions for exact details.
+Handles all the map parsing and storing data from the map in our data struct.*/
 void	check_map_validity(t_data *d)
 {
 	check_walls(d);
