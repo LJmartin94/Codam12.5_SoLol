@@ -6,7 +6,7 @@
 /*   By: W2Wizard <w2.wizzard@gmail.com>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/12/09 20:19:30 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/09 20:39:27 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,28 @@ mlx_image_t	*g_img;
 void	movement(mlx_key_data_t keydata, void* param)
 {
 	t_data		*d;
-	t_coords	dist;
+	t_coords	new_pos;
 	bool		hold_or_repeat;
 
 	d = param;
-	dist = d->unit;
 	hold_or_repeat = keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS;
+	new_pos = d->player;
 	if (keydata.key == MLX_KEY_ESCAPE && hold_or_repeat)
 		mlx_close_window(d->mlx);
 	if (keydata.key == MLX_KEY_UP &&  hold_or_repeat)
-		g_img->instances[0].y -= dist.y;
+		new_pos.y -= 1;
 	if (keydata.key == MLX_KEY_DOWN &&  hold_or_repeat)
-		g_img->instances[0].y += dist.y;
+		new_pos.y += 1;
 	if (keydata.key == MLX_KEY_LEFT &&  hold_or_repeat)
-		g_img->instances[0].x -= dist.x;
+		new_pos.x -= 1;
 	if (keydata.key == MLX_KEY_RIGHT &&  hold_or_repeat)
-		g_img->instances[0].x += dist.x;
+		new_pos.x += 1;
+	if (d->map[new_pos.y][new_pos.x] != '1')
+	{
+		d->player = new_pos;
+		g_img->instances[0].y = new_pos.y * d->unit.y;
+		g_img->instances[0].x = new_pos.x * d->unit.x;
+	}
 }
 
 // void	hook(void *param) //continuous movement
