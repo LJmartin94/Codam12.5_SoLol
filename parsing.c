@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:16:10 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/08 21:32:26 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/09 13:23:13 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,16 @@ void	get_map_dimensions(t_data *d, int *fd)
 	if (fd < 0)
 		ft_print_error("Could not open map file.\n");
 }
-// if (buf != '\n' && buf != '1' && buf != '0' && buf != 'C' && buf != 'P' \
-// 	&& buf != 'E')
-// 	ft_print_error("Map contains illegal characters.\n");
 
 /* This function will exit() if an error is encountered, 
 or init our data struct with the relevant information if not.
 It checks the correct number of args are passed.
-It opens the map.
 It checks the map is '.ber' type.
+It opens the map.
 It calls get_map_dimensions.
 It calls save_map.
 It calls check_map_validity.
+It closes the map fd once the parsing is done.
 */
 void	parsing(t_data *d, int argc, char **argv)
 {
@@ -108,5 +106,6 @@ void	parsing(t_data *d, int argc, char **argv)
 	get_map_dimensions(d, &fd);
 	save_map(d, fd);
 	check_map_validity(d);
+	close(fd);
 	return ;
 }
