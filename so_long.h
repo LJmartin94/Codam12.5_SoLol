@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:12:24 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/09 14:33:01 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/09 15:26:45 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ void	parsing(t_data *d, int argc, char **argv);
 void	check_map_validity(t_data *d);
 
 //yoink.c
-int		yoink(void);
+int		yoink(t_data *d);
 
 #endif

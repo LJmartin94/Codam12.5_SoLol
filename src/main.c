@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:07:03 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/09 14:32:40 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/09 15:26:03 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	parsing(&data, argc, argv);
-	yoink();
+	yoink(&data);
 	return (0);
 }
