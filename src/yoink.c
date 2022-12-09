@@ -6,7 +6,7 @@
 /*   By: W2Wizard <w2.wizzard@gmail.com>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/31 00:40:08 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/12/09 14:32:28 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/09 15:22:20 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <memory.h>
-#define WIDTH 256
-#define HEIGHT 256
 
 mlx_image_t	*g_img;
 
@@ -40,11 +38,18 @@ void	hook(void *param)
 int32_t	yoink(void)
 {
 	mlx_t	*mlx;
+	int		width;
+	int		height;
 
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+	mlx_set_setting(MLX_FULLSCREEN, true); //Cinematic, baby!
+	mlx = mlx_init(2560, 1440, "MLX42", true);
 	if (!mlx)
 		exit(EXIT_FAILURE);
-	g_img = mlx_new_image(mlx, 128, 128);
+	mlx_get_monitor_size(0, &width, &height);
+	mlx_set_window_size(mlx, width, height);
+	
+	g_img = mlx_new_image(mlx, height / 128, height / 128);
 	memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
 	mlx_image_to_window(mlx, g_img, 0, 0);
 	mlx_loop_hook(mlx, &hook, mlx);
