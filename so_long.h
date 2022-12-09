@@ -6,7 +6,7 @@
 /*   By: limartin <limartin@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/02 17:12:24 by limartin      #+#    #+#                 */
-/*   Updated: 2022/12/09 15:26:45 by limartin      ########   odam.nl         */
+/*   Updated: 2022/12/09 19:53:08 by limartin      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define SO_LONG_H
 
 /* Includes */
+#include "MLX42.h" // mlx, duh
+
 # include <stdio.h> // size_t
 # include <unistd.h> // write(), read()
 # include <stdlib.h> // exit(), malloc()
@@ -28,6 +30,7 @@ typedef struct s_coords
 
 typedef struct s_data
 {
+	mlx_t		*mlx;
 	char		*map_file;
 	char		**map;
 	int			map_len;
@@ -36,6 +39,7 @@ typedef struct s_data
 	t_coords	*collectables;
 	t_coords	player;
 	t_coords	exit;
+	t_coords	unit;
 }	t_data;
 
 /* Prototypes */
