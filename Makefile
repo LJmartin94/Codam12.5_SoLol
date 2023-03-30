@@ -6,7 +6,7 @@
 #    By: limartin <limartin@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/09 13:42:12 by limartin      #+#    #+#                  #
-#    Updated: 2022/12/09 14:43:20 by limartin      ########   odam.nl          #
+#    Updated: 2023/03/30 20:26:55 by limartin      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +31,16 @@ run: $(NAME)
 leon proud:
 	@if [ ! -d $(MLX_DIR) ]; \
 	then git clone https://github.com/codam-coding-college/MLX42.git $(MLX_DIR); fi
-	@$(MAKE) -C $(MLX_DIR)
+	cd $(MLX_DIR) && cmake . && make
 
 clean:
-	@$(MAKE) clean -C $(MLX_DIR)
+	@cd $(MLX_DIR) cmake clean
+	# @$(MAKE) clean -C $(MLX_DIR)
 	rm -rf *.o
 
 fclean: clean
-	@$(MAKE) fclean -C $(MLX_DIR)
+	@cd $(MLX_DIR) cmake fclean -C 
+	# @$(MAKE) fclean -C $(MLX_DIR)
 	rm -rf $(MLX_DIR)
 	rm -rf $(NAME)
 
